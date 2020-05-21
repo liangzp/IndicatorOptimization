@@ -70,7 +70,6 @@ class Model():
 
         self.optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(self.cost)
         
-        
     def training(self):
         epochs = 1000
         batch_num = self.train_vali // self.batch_size
@@ -91,7 +90,7 @@ class Model():
                             feature = (feature-feature.min()) / (feature.max() - feature.min())
                         else:
                             continue
-                        label = self.data.ar_ic[self.data.use_index, day, 2]
+                        label = self.data.ar_ic[self.data.use_index, day]
                         feed_dict = {self.embedding: embedding, self.factor: feature, self.factor_index: [fac_idx], self.ic: label}
                         new_f, loss_val = sess.run([self.new_f, self.cost], feed_dict=feed_dict)
                         loss_all += loss_val
@@ -113,7 +112,7 @@ class Model():
                             feature = (feature-feature.min()) / (feature.max() - feature.min())
                         else:
                             continue
-                        label = self.data.ar_ic[self.data.use_index, day, 2]
+                        label = self.data.ar_ic[self.data.use_index, day]
                         feed_dict = {self.embedding: embedding, self.factor: feature, self.factor_index: [fac_idx], self.ic: label}
                         _, loss_val = sess.run([self.optimizer, self.cost], feed_dict=feed_dict)
             if not os.path.exists(data_dir+'model-1to1_{}'.format(self.param)):
