@@ -83,10 +83,13 @@ class Graph():
 
         alias_nodes = {}
         for node in G.nodes():
-            unnormalized_probs = [G[node][nbr]['weight'] for nbr in sorted(G.neighbors(node))]
-            norm_const = sum(unnormalized_probs)
-            normalized_probs = [float(u_prob) / norm_const for u_prob in unnormalized_probs]
-            alias_nodes[node] = alias_setup(normalized_probs)
+            try:
+                unnormalized_probs = [G[node][nbr]['weight'] for nbr in sorted(G.neighbors(node))]
+                norm_const = sum(unnormalized_probs)
+                normalized_probs = [float(u_prob) / norm_const for u_prob in unnormalized_probs]
+                alias_nodes[node] = alias_setup(normalized_probs)
+            except:
+                print(node)
 
         alias_edges = {}
         triads = {}
